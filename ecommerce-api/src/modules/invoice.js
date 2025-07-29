@@ -1,13 +1,11 @@
 const mongoose = require('mongoose')
 
 const InvoiceSchema =  mongoose.Schema({
-  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', required: true },
+  customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
   products: [{
-    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-    quantity: Number,
-    price: Number
-  }],
-  total: Number,
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product'  },
+     }],
+  total: {type: Number},
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now }
 });
