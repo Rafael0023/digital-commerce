@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const InvoiceSchema =  mongoose.Schema({
+const SalesInvoiceSchema =  mongoose.Schema({
   customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
   products: [{
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product'  },
@@ -9,4 +9,4 @@ const InvoiceSchema =  mongoose.Schema({
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now }
 });
-module.exports = mongoose.model('Invoice', InvoiceSchema) 
+module.exports = mongoose.model('SalesInvoice', SalesInvoiceSchema) 

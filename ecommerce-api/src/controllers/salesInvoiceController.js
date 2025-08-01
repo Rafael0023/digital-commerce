@@ -1,11 +1,11 @@
-const invoice = require('../models/invoice.js')
+const salesInvoice = require('../models/salesInvoice.js')
 
 function getInvoice (req, res)  {
-    invoice.find().then(data => res.send(JSON.stringify(data)))
+    salesInvoice.find().then(data => res.send(JSON.stringify(data)))
 }
 function getInvoiceById (req, res)  {
     const id = req.params.id
-    invoice.findById(id).then(data => {
+    salesInvoice.findById(id).then(data => {
         !data ? res.send('invoice not found') :
             res.send(JSON.stringify(data))
     })
@@ -19,7 +19,7 @@ function createInvoice(req, res)  {
         ? res.status(404).json({ message: 'invalid request data' }) :
         res
 
-    const newInvoice = new invoice({customer, products,total})
+    const newInvoice = new salesInvoice({customer, products,total})
 
 
    newInvoice.save()
@@ -34,7 +34,7 @@ function createInvoice(req, res)  {
 
 function deleteInvoiceById(req, res){
         const id = req.params.id
-        invoice.findByIdAndDelete(id)
+        salesInvoice.findByIdAndDelete(id)
         .then(data =>{
           !data? res.status(404).json({message:'not found'})
           :res.send('invoice deleted') 

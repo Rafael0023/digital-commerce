@@ -15,21 +15,7 @@ const create = async (products, type, reference) => {
       if (!['entrada', 'salida'].includes(type)) {
     throw new Error('Tipo de inventario no válido');
   }
-     await Promise.all( products.map(async item => {
-        const productId = item.product._id
-        const existingProduct = product.findById(productId)
-        if (!existingProduct){
-             throw new Error(`Producto con ID ${productId} no encontrado`) 
-            }
-            const update = type === 'entrada'
-      ? { $inc: { stock: item.quantity } }
-      : { $inc: { stock: -item.quantity } };
-            
-
-        await product.findByIdAndUpdate(productId, update, 
-          { new: true })
-
-    }))
+   updateStock(products,type)
 
     const newInventory = new inventory({ products, type, reference })
     return newInventory.save()
@@ -45,8 +31,24 @@ const updateById = (id, products, type, reference) => {
 const deleteById = (id) => {
     return inventory.findByIdAndDelete(id)
 }
+async function updateStock  ( products, type) {
 
+         await Promise.all( products.map(async item => {
+        const productId = item.product._id
+        const existingProduct = product.findById(productId)
+        if (!existingProduct){
+             throw new Error(`Producto con ID ${productId} no encontrado`) 
+            }
+            const update = type === 'entrada'
+      ? { $inc: { stock: item.quantity } }
+      : { $inc: { stock: -item.quantity } };
+            
 
+        await product.findByIdAndUpdate(productId, update, 
+          { new: true })
+
+    }))
+}
 
 module.exports = {
     getListInventory,
