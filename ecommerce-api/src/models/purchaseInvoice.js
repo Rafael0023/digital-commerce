@@ -1,26 +1,33 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const PurchaseInvoice = mongoose.Schema({
-    supplier: {
-        type: String,
-        require: true,
-    },
-    products: [
-        {
-            product: {
-                type: mongoose.Schema.Types.ObjectId, ref: 'Product'
-            }
-        }
-    ],
-    quantity: {
-        type: Number
-    },
+const PurchaseInvoiceSchema =  mongoose.Schema({
+  supplier: {
+    type: String,
+    required: true 
+  },
+  products: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true 
+      },
+   
+      quantity: {
+        type: Number,
+        min: 1,
+        required: true  
+      }
+    }
+  ],
+  total: {
+    type: Number,
+    min: 0
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
 
-    total: {
-        type: Number
-    },
-    createdAt: { type: Date, default: Date.now }
-
-})
-module.exports = mongoose.model('PurchaseInvoice', PurchaseInvoice )
-
+module.exports = mongoose.model('PurchaseInvoice', PurchaseInvoiceSchema);
