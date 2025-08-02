@@ -21,14 +21,12 @@
  const updateById  = (id,updateInvoice) => {
     const {supplier,
         products,
-        quantity,
         total} = updateInvoice
 
    const data = purchaseInvoice.findByIdAndUpdate(id, {
         $set: {
             supplier,
             products,
-            quantity,
             total
         }
     },
