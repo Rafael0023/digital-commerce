@@ -21,6 +21,7 @@ async function getPurchaseInvoiceById(req, res) {
 
 }
 async function createPurchaseInvoice(req, res) {
+   
     const invoice = req.body
     try {
         const data = await create(invoice)
@@ -32,7 +33,7 @@ async function createPurchaseInvoice(req, res) {
 async function updatePurchaseInvoiceById(req, res) {
     const updateInvoice = req.body
     try {
-        const data = await updateById(req.param.id, updateInvoice)
+        const data = await updateById(req.params.id, updateInvoice)
         res.json(`purchase invoice actualizada ${data}`)
     } catch (error) {
         res.status(404).json({ message: 'purchase invoice not update' })
