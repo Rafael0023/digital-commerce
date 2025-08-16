@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Counter = require('./counter.js')
 
 const OrderSchema = new mongoose.Schema({
   orderNumber: {
@@ -60,6 +61,25 @@ const OrderSchema = new mongoose.Schema({
   notes: String
 }, {
   timestamps: true
+});
+
+OrderSchema.pre("save", async function (next) {
+  if (!this.orderNumber) {
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);  
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); 
+
+    const clave = `${year}${month}`; 
+    
+    const counter = await Counter.findOneAndUpdate(
+      { nombre: clave },
+      { $inc: { valor: 1 } },
+      { new: true, upsert: true }
+    );
+
+    this.orderNumber = `PED-${year}${month}-${counter.valor.toString().padStart(4, "0")}`;
+  }
+  next();
 });
 
 module.exports = mongoose.model('Order', OrderSchema);
