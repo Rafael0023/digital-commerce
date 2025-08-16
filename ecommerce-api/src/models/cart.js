@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const  CartSchema =  mongoose.Schema({
+const CartSchema = mongoose.Schema({
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
@@ -40,9 +40,9 @@ const  CartSchema =  mongoose.Schema({
 });
 
 
-CartSchema.pre('save', function(next) {
-  this.total = this.items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-  this.ultimaActualizacion = new Date();
+CartSchema.pre('save', function (next) {
+  this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  this.lastUpdated = new Date();
   next();
 });
 

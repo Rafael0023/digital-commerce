@@ -53,8 +53,8 @@ const ProductSchema = mongoose.Schema({
   timestamp: true
 });
 
-ProductSchema.index({ nombre: 'text', descripcion: 'text', tags: 'text' });
-ProductSchema.index({ categoria: 1, precio: 1 });
+ProductSchema.index({ name: 'text', description: 'text', tags: 'text' });
+ProductSchema.index({ category: 1, price: 1 });
 
 
 
