@@ -39,4 +39,13 @@ const  CartSchema =  mongoose.Schema({
   timestamps: true
 });
 
+
+CartSchema.pre('save', function(next) {
+  this.total = this.items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+  this.ultimaActualizacion = new Date();
+  next();
+});
+
+
+
 module.exports = mongoose.model('Cart', CartSchema);
