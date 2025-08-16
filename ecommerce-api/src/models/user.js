@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
 const UserSchema = mongoose.Schema({
+    name:{
+        type: String,
+        require: true,
+    },
+    lastname: {
+    type : String,
+    require : true,
+
+   },
 
     email: {
         type: String,
@@ -18,7 +27,19 @@ const UserSchema = mongoose.Schema({
         type: String,
         require: true,
 
+    },
+    rol:{
+        type: String,
+        enum: ['admin','customer'],
+        default: 'customer',
+    },
+    state:{
+        type:Boolean,
+        default: true,
     }
+    
+},{
+    timestamp:true
 
-})
+});
 module.exports = mongoose.model('User', UserSchema)

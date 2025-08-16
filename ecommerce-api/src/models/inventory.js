@@ -1,34 +1,31 @@
 const mongoose = require('mongoose')
 
 const InventorySchema = mongoose.Schema({
-
-  products: [{
-    product: {
-      type: mongoose.Schema.Types.ObjectId, ref: 'Product',
-      required: true,
-     
-    },
-    quantity: {
-      type: Number,
-      required: true,
-      min: 0
-    }
-  }],
-
-  type: {
-    type: String,
-    enum: ['entrada', 'salida'],
-    required: true
+ 
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true,
+    unique: true
   },
-
-  reference: {
-    type: String
+  quantity: {
+    type: Number,
+    required: true,
+    min: 0,
+    default: 0
   },
-  createdAt: {
+  minimumStock: {
+    type: Number,
+    default: 5
+  },
+  location: String,
+  lastUpdated: {
     type: Date,
     default: Date.now
   }
+}, {
+  timestamps: true
+});
 
-})
 module.exports = mongoose.model('Inventory', InventorySchema)
 
