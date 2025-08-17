@@ -1,12 +1,12 @@
-const {getInvoice,getInvoiceById,createInvoice,deleteInvoiceById} = require('../controllers/orderController.js')
+const { getOrder, getOrderById, createOrder, deleteOrderById } = require('../controllers/orderController.js')
 const express = require('express')
 
 const routersOrder = express.Router()
 
-routersSalesInvoice.get('/',getInvoice )
-routersSalesInvoice.get('/:id',getInvoiceById )
-routersSalesInvoice.post('/',express.json(),createInvoice )
-routersSalesInvoice.delete('/:id',deleteInvoiceById)
+routersOrder.get('/',getOrder )
+routersOrder.get('/:id',getOrderById )
+routersOrder.post('/',express.json(),createOrder)
+routersOrder.delete('/:id',deleteOrderById)
 
 module.exports = {
      routersOrder
