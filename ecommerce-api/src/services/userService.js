@@ -6,13 +6,13 @@ const get = () => {
 const getById = (id) => {
     return user.findById(id)
 }
-const create = (email, password) => {
-    const newUser = new user({ email, password })
+const create = (name, lastname, email, password, rol, state) => {
+    const newUser = new user({ name, lastname, email, password, rol, state })
     return newUser.save()
 }
-const update = (id, email, password) => {
+const update = (id, name, lastname, email, password, rol, state) => {
 
-    return user.findByIdAndUpdate(id, { $set: { email, password } }, {
+    return user.findByIdAndUpdate(id, { $set: { name, lastname, email, password, rol, state } }, {
         runValidators: true,
         new: true
     })

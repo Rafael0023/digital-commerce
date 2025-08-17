@@ -5,13 +5,13 @@ async function getUser(req, res) {
         const data = await get();
         res.json(data);
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener usuarios' });
+        res.status(500).json({ error: 'Error getting users' });
     }
 }
 async function getUserById(req, res) {
     try {
         const data = await getById(req.params.id)
-        !data ? res.status(404).json({ message: 'not found' }) :
+        !data ? res.status(404).json({ message: 'User not found' }) :
             res.json(data)
     } catch (error) {
         res.status(404).json({ message: 'not found' })
@@ -20,11 +20,11 @@ async function getUserById(req, res) {
 
 }
 async function createUser(req, res) {
-    const { email, password } = req.body
-    if (!email || !password)
+    const {name, lastname, email, password, rol, state } = req.body
+    if (!name||!lastname|| !email || !password)
         return res.status(404).json({ message: 'data request invalid' })
     try {
-        const data = await create(email, password)
+        const data = await create(name, lastname, email, password, rol, state)
         res.send(data)
     } catch (error) {
         res.status(404).json({ mesage: 'error to create user' })
