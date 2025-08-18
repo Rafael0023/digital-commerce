@@ -20,8 +20,8 @@ async function getUserById(req, res) {
 
 }
 async function createUser(req, res) {
-    const {name, lastname, email, password, rol, state } = req.body
-    if (!name||!lastname|| !email || !password)
+    const { name, lastname, email, password, rol, state } = req.body
+    if (!name || !lastname || !email || !password)
         return res.status(404).json({ message: 'data request invalid' })
     try {
         const data = await create(name, lastname, email, password, rol, state)
@@ -34,20 +34,15 @@ async function createUser(req, res) {
 }
 async function updateUser(req, res) {
 
-    const { email, password } = req.body
-
-    if (!email || !password) {
-        return res.status(404).json({ message: 'data request invalid' })
-
-    }
+    const { name, lastname, email, password, rol, state } = req.body
 
     try {
-        const data = await update(req.params.id, email, password)
+        const data = await update(req.params.id, name, lastname, email, password, rol, state)
 
         if (!data) {
             return res.status(404).json({ message: 'not found' })
         }
-        res.send(`user ${data} update`)
+        res.send(`user ${data} `)
     } catch (error) {
         res.status(404).json({ message: 'error to update' })
     }
@@ -63,7 +58,7 @@ async function deleteUser(req, res) {
 
         } res.send('user deleted')
     } catch (error) {
-         res.status(404).json({ message: 'user not found' })
+        res.status(404).json({ message: 'user not found' })
     }
 
 

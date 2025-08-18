@@ -5,7 +5,7 @@ const routersUser = express.Router()
 routersUser.get('/',getUser)
            .get('/:id',getUserById)
            .post('/',express.json(),createUser)
-           .put('/:id',express.json(),updateUser) 
+           .patch('/:id',express.json(),updateUser) 
            .delete('/:id', deleteUser)
 module.exports = {
     routersUser

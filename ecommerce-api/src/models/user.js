@@ -1,19 +1,20 @@
 const mongoose = require('mongoose');
-const validator = require('validator')
+const validator = require('validator');
+const bcrypt = require('bcryptjs')
 const UserSchema = mongoose.Schema({
     name:{
         type: String,
-        require: true,
+        required: true,
     },
     lastname: {
     type : String,
-    require : true,
+    required : true,
 
    },
 
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true,
         lowercase:true,
         validate: {
@@ -25,7 +26,7 @@ const UserSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        require: true,
+        required: true,
 
     },
     rol:{
@@ -39,7 +40,7 @@ const UserSchema = mongoose.Schema({
     }
     
 },{
-    timestamp:true
+    timestamps:true
 
 });
 UserSchema.pre('save',async function(next){
