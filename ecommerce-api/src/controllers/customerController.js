@@ -1,91 +1,56 @@
-const customer = require('../models/customer.js') 
+const customer = require('../models/customer.js');
+const { get, getById, create, update, deleteById } = require('../services/customerService.js');
+const { validateDate } = require('../middleware/validation.js');
 
-function getCustomers (req, res) {
-
-    customer.find().then(data => res.send(JSON.stringify(data)))
+async function getCustomers(req, res) {
+    const data = await get();
+    res.send(JSON.stringify(data))
 
 }
-function getCustomersById (req, res)  {
-
-    const id = req.params.id
-
-    customer.findById(id).then(data => {
-        !data ? res.status(404).json({ message: 'error' })
-            : res.send(JSON.stringify(data))
-    })
-}
-function createCustomersById (req, res) {
-    const {
-        name,
-        lastname,
-        email,
-        address: {
-            street,
-            city,
-            state,
-            zipCode,
-            country },
-        phone,
-        personalId } = req.body
-
-    const customers = new customer({
-        name,
-        lastname,
-        email,
-        address: {
-            street,
-            city,
-            state,
-            zipCode,
-            country
-        },
-        phone,
-        personalId
-    })
-    
-    customers.save()
-    res.send(JSON.stringify('usuario guardado correctamente'))
-}
-
- async function updateCustomersById (req, res)  {
-    const id = req.params.id
-    const {
-        name,
-        lastname,
-        email,
-        address: {
-            street,
-            city,
-            state,
-            zipCode,
-            country },
-        phone,
-        personalId } = req.body
+async function getCustomersById(req, res) {
     try {
+        const data = await getById(req.params.id)
 
-        const customerUpdate = await customer.findByIdAndUpdate(id,
-            {
-                $set:
-                {
-                    name,
-                    lastname,
-                    email,
-                    address: {
-                        street,
-                        city,
-                        state,
-                        zipCode,
-                        country
-                    },
-                    phone,
-                    personalId
-                }
-            },
-            { new: true });
-        !customerUpdate ?
-            res.status(404).json({ message: 'error not Update' })
-            : res.send(JSON.stringify(customerUpdate))
+        if (!data) {
+            res.status(404).json({ message: 'not found' })
+        }
+        res.send(JSON.stringify(data))
+    } catch (error) {
+        res.status(404).json({ message: 'not found' })
+    }
 
+}
+async function createCustomers(req, res) {
+
+    const { user, address, dateOfBirth,phone, paymentMethods } = req.body
+    try {
+        const date = validateDate(dateOfBirth)
+
+        if (!user) {
+            return res.status(404).json({ message: 'data request invalid' })
+        }
+        const data = await create(user, address, date, phone, paymentMethods)
+        res.send(JSON.stringify(data))
+    } catch (error) {
+        return res.status(404).json({ message: 'Error to create' })
+    }
+
+
+
+}
+
+async function updateCustomersById(req, res) {
+
+    try {
+        const id = req.params.id
+        const { user, address, dateOfBirth, phone, paymentMethods } = req.body
+        const date = validateDate(dateOfBirth)
+        const data = await update(id, user, address, date, phone, paymentMethods)
+
+        if (!data) {
+            res.status(404).json({ message: 'Error to Update' })
+        }
+        res.send(JSON.stringify(data))
     }
     catch (error) {
         res.status(505).json({ message: error.message })
@@ -94,20 +59,23 @@ function createCustomersById (req, res) {
 
 }
 
-function deleteCustomersById (req, res)  {
-    const id = req.params.id
-    customer.findByIdAndDelete(id).then(data=>{
-        !data ? res.status(404).json({message:'error customer not found'})
-        :res.send(JSON.stringify(`customer delete ${data}`))
-                  
-    })
+async function deleteCustomersById(req, res) {
+    try {
+        const data = await deleteById(req.params.id)
+        if (!data) {
+            res.status(404).json({ message: 'Delete unsuccessful' })
+        }
+        res.send(JSON.stringify(data))
+    } catch (error) {
+        res.status(404).json({ message: 'Delete unsuccessful' })
+    }
 
 }
 
 module.exports = {
     getCustomers,
     getCustomersById,
-    createCustomersById,
+    createCustomers,
     updateCustomersById,
     deleteCustomersById
 }

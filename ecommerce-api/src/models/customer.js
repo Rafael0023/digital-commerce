@@ -15,7 +15,7 @@ const CustomerSchema = mongoose.Schema({
    },
    phone: {
       type: String,
-      require: true,
+      
    },
    paymentMethods: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +23,6 @@ const CustomerSchema = mongoose.Schema({
    }]
 
 }, {
-   timestamp: true
+   timestamps: true
 });
 module.exports = mongoose.model('Customer', CustomerSchema);
