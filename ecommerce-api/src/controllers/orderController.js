@@ -1,10 +1,9 @@
-const { json } = require('express')
 const order = require('../models/order.js')
-const { getListOrder, getOrderById, createOrder } = require('../services/orderService.js')
+const { get, getById, create } = require('../services/orderService.js')
 
 async function getOrder(req, res) {
     try {
-        const data = await getListOrder()
+        const data = await get()
         res.send(data)
 
     } catch (error) {
@@ -16,7 +15,7 @@ async function getOrder(req, res) {
 async function getOrderById(req, res) {
 
     try {
-        const data = await getOrderById(req.params.id)
+        const data = await getById(req.params.id)
         res.send(json(data))
     } catch (error) {
         res.status(404).json({ message: 'not found' })
@@ -35,7 +34,7 @@ async function createOrder(req, res) {
         if (!customer || !Array.isArray(products) || products.length === 0) {
             res.send('Data request invalid')
         }
-        const data = await createOrder(customer, products, total)
+        const data = await create(customer, products, total)
         res.send(data)
 
     } catch (error) {

@@ -1,15 +1,15 @@
 const Order = require('../models/order.js')
 
-const getListOrder = () => {
+const get = () => {
     return Order.find()
 }
 
-const getOrderById = (id) => {
+const getById = (id) => {
     return  Order.findById(id)
    
     
 }
-const createOrder = ( customer,
+const create = ( customer,
         products, total)=>{
  
     const newOrder = new Order({ customer,
@@ -18,8 +18,8 @@ const createOrder = ( customer,
 
 }
 module.exports = {
-    getListOrder,
-    getOrderById,
-    createOrder,
+    get,
+    getById,
+    create,
 
 }
