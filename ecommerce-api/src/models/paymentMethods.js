@@ -11,9 +11,29 @@ const PaymentMethodsSchema =  mongoose.Schema({
     enum: ['credit_card', 'debit_card', 'paypal', 'bank_transfer'],
     required: true
   },
-  cardholderName: String,   // Name on the card
-  lastDigits: String,       // Last 4 digits
-  expirationDate: String,   // MM/YY
+  provider: {
+    type: String,
+  },
+  token: {
+    type: String, 
+  },
+  cardholderName: {
+    type: String,
+    uppercase: true
+  },
+  lastDigits: {
+    type: String,
+    minlength: 4,
+    maxlength: 4
+  },
+  expMonth: {
+    type: Number,
+    min: 1,
+    max: 12
+  },
+  expYear: {
+    type: Number
+  },
   isPrimary: {
     type: Boolean,
     default: false
@@ -26,4 +46,4 @@ const PaymentMethodsSchema =  mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('PaymentMethods', PaymentMethodsSchema);
+module.exports = mongoose.model('PaymentMethod', PaymentMethodsSchema);
