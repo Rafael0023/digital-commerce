@@ -1,4 +1,4 @@
-const mongoose = require('mogoose')
+const mongoose = require('mongoose')
 
 const counterSchema = mongoose.Schema({
     name: {
